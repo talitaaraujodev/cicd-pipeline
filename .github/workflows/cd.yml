@@ -28,14 +28,20 @@ jobs:
             sudo docker rm cicd-pipeline-container
           fi
 
+      - name: Ensure port 5001 is free
+        run: |
+          if lsof -i:5001; then
+            sudo kill -9 $(lsof -t -i:5001)
+          fi
+
       - name: Run new Docker container
         run: |
           sudo docker run -d -p 5001:5000 --name cicd-pipeline-container-new talitasantosdev/cicd-pipeline:latest
 
       - name: Wait for new container to be healthy
-        run: sleep 30
+        run: sleep 30  # Adjust the sleep duration as needed
 
-      - name: Update nginx (load balancer) to point to the new container
+      - name: Update load balancer to point to the new container
         run: |
           sudo sed -i 's/5000/5001/' /etc/nginx/conf.d/default.conf
           sudo nginx -s reload
@@ -46,5 +52,5 @@ jobs:
             sudo docker rm -f cicd-pipeline-container
           fi
 
-      - name: Rename new container to the old container name
+      - name: Rename new container to the old container name (optional)
         run: sudo docker rename cicd-pipeline-container-new cicd-pipeline-container
