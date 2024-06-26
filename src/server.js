@@ -10,7 +10,6 @@ const products = [
   { id: "3", name: "Product 3", price: 12 },
   { id: "4", name: "Product 4", price: 15 },
   { id: "5", name: "Product 5", price: 27 },
-  { id: "6", name: "Product 6", price: 29 },
 ];
 app.get("/", (req, res) => {
   res.json({
