@@ -19,6 +19,9 @@ jobs:
 
       - name: Run new Docker container
         run: |
+          if [ "$(sudo docker ps -a -q -f name=cicd-pipeline-container-new)" ]; then
+            sudo docker rm -f cicd-pipeline-container-new
+          fi
           sudo docker run -d -p 5001:5000 --name cicd-pipeline-container-new talitasantosdev/cicd-pipeline:latest
 
       - name: Wait for new container to be healthy
@@ -35,6 +38,6 @@ jobs:
             sudo docker stop cicd-pipeline-container
             sudo docker rm cicd-pipeline-container
           fi
-          
+
       - name: Rename new container to the old container name
         run: sudo docker rename cicd-pipeline-container-new cicd-pipeline-container
