@@ -11,13 +11,12 @@ const products = [
   { id: "4", name: "Product 4", price: 15 },
   { id: "5", name: "Product 5", price: 27 },
   { id: "6", name: "Product 6", price: 29 },
-  { id: "6", name: "Product 7", price: 11 },
 ];
 app.get("/", (req, res) => {
   res.json({
     status: 200,
     success: true,
-    message: "Hello world!!!",
+    message: "Hello world teste!",
   });
 });
 
