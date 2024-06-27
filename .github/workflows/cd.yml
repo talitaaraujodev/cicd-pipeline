@@ -28,15 +28,15 @@ jobs:
           sudo docker run -d -p 5001:5000 --name cicd-pipeline-container-new talitasantosdev/cicd-pipeline:latest
 
       - name: Wait for new container to be healthy
-        run: sleep 30
+        run: sleep 30  # Ajuste o tempo conforme necessário
 
       - name: Test new deployment on port 5001
         run: |
-          curl -f http://127.0.0.1:5001 || exit 1
+          curl -f http://127.0.0.1:5001 || exit 1  # Exemplo simples de teste
 
-      - name: Temporarily update nginx (load balancer) to point to port 5001
+      - name: Temporarily update load balancer to point to port 5001
         run: |
-          sudo sed -i 's/127.0.0.1:5000/127.0.0.1:5001/' /etc/nginx/conf.d/default.conf
+          sudo sed -i 's/server 127.0.0.1:5000;/server 127.0.0.1:5001;/' /etc/nginx/conf.d/default.conf
           sudo nginx -s reload
 
       - name: Ensure port 5000 is free
@@ -45,20 +45,27 @@ jobs:
             sudo kill -9 $(lsof -t -i:5000)
           fi
 
+      - name: Stop and remove old Docker container
+        run: |
+          if [ "$(sudo docker ps -a -q -f name=cicd-pipeline-container)" ]; then
+            sudo docker stop cicd-pipeline-container
+            sudo docker rm cicd-pipeline-container
+          fi
+
       - name: Run new Docker container on port 5000
         run: |
           sudo docker run -d -p 5000:5000 --name cicd-pipeline-container talitasantosdev/cicd-pipeline:latest
 
       - name: Wait for container on port 5000 to be healthy
-        run: sleep 30
+        run: sleep 30  # Ajuste o tempo conforme necessário
 
       - name: Test new deployment on port 5000
         run: |
-          curl -f http://127.0.0.1:5000 || exit 1
+          curl -f http://127.0.0.1:5000 || exit 1  # Exemplo simples de teste
 
       - name: Update load balancer to point back to port 5000
         run: |
-          sudo sed -i 's/127.0.0.1:5001/127.0.0.1:5000/' /etc/nginx/conf.d/default.conf
+          sudo sed -i 's/server 127.0.0.1:5001;/server 127.0.0.1:5000;/' /etc/nginx/conf.d/default.conf
           sudo nginx -s reload
 
       - name: Stop and remove the Docker container on port 5001
