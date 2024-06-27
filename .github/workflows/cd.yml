@@ -45,11 +45,11 @@ jobs:
             sudo kill -9 $(lsof -t -i:5000)
           fi
 
-      - name: Stop and remove old Docker container
+      - name: Stop and remove old Docker container if exists
         run: |
           if [ "$(sudo docker ps -a -q -f name=cicd-pipeline-container)" ]; then
-            sudo docker stop cicd-pipeline-container
-            sudo docker rm cicd-pipeline-container
+            sudo docker stop cicd-pipeline-container || true
+            sudo docker rm cicd-pipeline-container || true
           fi
 
       - name: Run new Docker container on port 5000
@@ -70,5 +70,5 @@ jobs:
 
       - name: Stop and remove the Docker container on port 5001
         run: |
-          sudo docker stop cicd-pipeline-container-new
-          sudo docker rm cicd-pipeline-container-new
+          sudo docker stop cicd-pipeline-container-new || true
+          sudo docker rm cicd-pipeline-container-new || true
