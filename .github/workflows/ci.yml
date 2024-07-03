@@ -1,11 +1,10 @@
 name: CI Pipeline
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-        # O pipeline é acionado quando há um push na branch "main"
-
+        # O pipeline é acionado quando há um pr na branch "main"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,17 +12,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Login to Docker Hub
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test
+
+      - name: Login Docker Hub
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
-      - name: Remove unused Docker images
-        run: docker image prune -af
-
-      - name: Build the Docker image
+      - name: Build image Docker
         run: docker build -t talitasantosdev/cicd-pipeline .
 
       - name: Push to Docker Hub

@@ -1,4 +1,5 @@
-const express = require("express");
+import { Request, Response } from "express";
+import express from "express";
 
 const app = express();
 
@@ -12,7 +13,7 @@ const products = [
   { id: "5", name: "Product 5", price: 27 },
   { id: "6", name: "Product 6", price: 29 },
 ];
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
   res.json({
     status: 200,
     success: true,
