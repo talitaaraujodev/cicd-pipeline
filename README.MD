@@ -43,22 +43,22 @@ Essa é uma estratégia de deploy azul-verde (blue-green deployment). Ele lança
 
 **Como Funciona:**
 
-- Dois Ambientes Idênticos: Mantenha dois ambientes de produção idênticos, denominados "azul" e "verde";
-- Novo Deploy no Ambiente Inativo: A nova versão do aplicativo é implantada no ambiente inativo (por exemplo, ambiente verde) enquanto o ambiente ativo (por exemplo, ambiente azul) continua a servir o tráfego;
-- Testes no Novo Ambiente: Realize testes no novo ambiente para garantir que ele funciona corretamente;
+- **Dois Ambientes Idênticos:** Mantenha dois ambientes de produção idênticos, denominados "azul" e "verde";
+- **Novo Deploy no Ambiente Inativo:** A nova versão do aplicativo é implantada no ambiente inativo (por exemplo, ambiente verde) enquanto o ambiente ativo (por exemplo, ambiente azul) continua a servir o tráfego;
+- **Testes no Novo Ambiente:** Realize testes no novo ambiente para garantir que ele funciona corretamente;
 - Troca de Tráfego: Uma vez que a nova versão é validada, o tráfego é direcionado para o novo ambiente (verde), tornando-o ativo;
-- Rollback Fácil: Em caso de problemas, o tráfego pode ser rapidamente revertido para o ambiente original (azul), garantindo um rollback rápido.
+- **Rollback Fácil:** Em caso de problemas, o tráfego pode ser rapidamente revertido para o ambiente original (azul), garantindo um rollback rápido.
 
-**Vantagens:**
+**Vantagens:** ✅
 
-- Zero Downtime: Minimiza o tempo de inatividade durante a implantação;
-- Rollback Rápido: Fácil reversão para a versão anterior em caso de falhas;
-- Ambientes Idênticos: Consistência entre os ambientes de produção;
+- **Zero Downtime:** Minimiza o tempo de inatividade durante a implantação;
+- **Rollback Rápido:** Fácil reversão para a versão anterior em caso de falhas;
+- **Ambientes Idênticos:** Consistência entre os ambientes de produção;
 
-**Desvantagens:**
+**Desvantagens:** ❎
 
-- Custo: Manter dois ambientes de produção idênticos pode ser caro;
-- Complexidade: Requer uma infraestrutura que suporte dois ambientes completos;
+- **Custo:** Manter dois ambientes de produção idênticos pode ser caro;
+- **Complexidade:** Requer uma infraestrutura que suporte dois ambientes completos;
 
 <br><br>
 
